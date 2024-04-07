@@ -36,7 +36,10 @@ int main() {
     int turnaroundTime[n]; // Array to store turnaround time of processes
 
     // Calculate completion time, waiting time, and turnaround time for each process
-    
+    completionTime[0] = arrivalTime[0] + burstTime[0];
+    for (int i = 1; i < n; i++) {
+        completionTime[i] = completionTime[i - 1] + burstTime[i];
+    }
 
     for (int i = 0; i < n; i++) {
         waitingTime[i] = completionTime[i] - arrivalTime[i] - burstTime[i];
@@ -44,22 +47,22 @@ int main() {
     }
 
     // Calculate average waiting time and average turnaround time
-    float avgWaitingTime = 0;
-    float avgTurnaroundTime = 0;
+    int totalWaitingTime = 0;
+    int totalTurnaroundTime = 0;
     for (int i = 0; i < n; i++) {
-        avgWaitingTime += waitingTime[i];
-        avgTurnaroundTime += turnaroundTime[i];
+        totalWaitingTime += waitingTime[i];
+        totalTurnaroundTime += turnaroundTime[i];
     }
-    avgWaitingTime /= n;
-    avgTurnaroundTime /= n;
+    int avgWaitingTime = totalWaitingTime / n;
+    int avgTurnaroundTime = totalTurnaroundTime / n;
 
     // Print the results
     printf("\nProcess\tArrival Time\tBurst Time\tCompletion Time\tWaiting Time\tTurnaround Time\n");
     for (int i = 0; i < n; i++) {
-        printf("%d\t%d\t\t%d\t\t%d\t\t%d\t\t%d\n", i + 1, arrivalTime[i], burstTime[i], completionTime[i], waitingTime[i], turnaroundTime[i]);
+        printf("%d\t\t\t%d\t\t\t\t%d\t\t\t\t%d\t\t\t%d\t\t\t\t%d\n", i + 1, arrivalTime[i], burstTime[i], completionTime[i], waitingTime[i], turnaroundTime[i]);
     }
-    printf("\nAverage Waiting Time: %.2f\n", avgWaitingTime);
-    printf("Average Turnaround Time: %.2f\n", avgTurnaroundTime);
+    printf("\nAverage Waiting Time: %d\n", avgWaitingTime);
+    printf("Average Turnaround Time: %d\n", avgTurnaroundTime);
 
     return 0;
 }
